@@ -42,11 +42,11 @@ exports.template = function( grunt, init, done ) {
 			message: 'Plugin slug (used for text domain)',
 			default: slug
 		},
-		{
-			name   : 'prefix',
-			message: 'PHP function prefix (alpha and underscore characters only)',
-			default: prefix
-		},
+		// {
+		// 	name   : 'prefix',
+		// 	message: 'PHP function prefix (alpha and underscore characters only)',
+		// 	default: prefix
+		// },
 		{
 			name   : 'version',
 			message: 'Version',
@@ -56,6 +56,11 @@ exports.template = function( grunt, init, done ) {
 			name   : 'description',
 			message: 'Description',
 			default: 'The best WordPress extension ever made!'
+		},
+		{
+			name   : 'wp_contributors',
+			message: 'Contributors (wordpress.org usernames)',
+			default: 'McGuive7'
 		},
 		{
 			name   : 'tags',
@@ -108,10 +113,10 @@ exports.template = function( grunt, init, done ) {
 		props.name = slug;
 		
 		// Development prefix (i.e. to prefix PHP function names, variables)
-		props.prefix = props.prefix.replace('/[^a-z_]/i', '').toLowerCase();
+		// props.prefix = props.prefix.replace('/[^a-z_]/i', '').toLowerCase();
 		
 		// Development prefix in all caps (e.g. for constants)
-		props.prefix_caps = props.prefix.toUpperCase();
+		//props.prefix_caps = props.prefix.toUpperCase();
 		
 		// An additional value, safe to use as a JavaScript identifier.
 		//props.js_safe_name = props.name.replace(/[\W_]+/g, '_').replace(/^(\d)/, '_$1');
@@ -153,11 +158,37 @@ exports.template = function( grunt, init, done ) {
 		
 		// Actually copy and process files
 		init.copyAndProcess( files, props );
+
+		/**
+		 * Rename files - replacing 'plugin-path' with the actual plugin slug
+		 *
+		 * This is typically done via rename.json, however I wasn't
+		 * able to find a good way to wildcard search and replace for
+		 * 'plugin-name'.
+		 */
+		grunt.file.recurse(process.cwd(), function ( abspath, rootdir, subdir, filename ) { 
+			
+			// Rename any file with 'plugin-name' in the filename
+			if ( filename.indexOf( 'plugin-name' ) > -1 ) {
+				
+				// Generate new file name
+				var newAbspath = abspath.replace( 'plugin-name', props.slug);
+				
+				// Copy original template file into new named file
+				grunt.file.copy(abspath, newAbspath);
+
+				// Delete original template file
+				grunt.file.delete(abspath);
+
+			}
+
+		});
 		
 		// Generate package.json file
 		init.writePackageJSON( 'package.json', props );
 		
 		// Done!
 		done();
+
 	});
 };

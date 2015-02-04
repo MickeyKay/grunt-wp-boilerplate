@@ -14,7 +14,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       {%= title %}
- * Plugin URI:        {%= homepage %}/plugin-name-uri/
+ * Plugin URI:        {%= homepage %}
  * Description:       {%= description %}
  * Version:           {%= version %}
  * Author:            {%= author_name %} or Your Company
@@ -32,30 +32,30 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-plugin-name-activator.php
+ * This action is documented in includes/class-{%= slug %}-activator.php
  */
-function activate_plugin_name() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name-activator.php';
+function activate_{%= underscored_slug %}() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-{%= slug %}-activator.php';
 	{%= safe_name %}_Activator::activate();
 }
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-plugin-name-deactivator.php
+ * This action is documented in includes/class-{%= slug %}-deactivator.php
  */
-function deactivate_plugin_name() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name-deactivator.php';
+function deactivate_{%= underscored_slug %}() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-{%= slug %}-deactivator.php';
 	{%= safe_name %}_Deactivator::deactivate();
 }
 
-register_activation_hook( __FILE__, 'activate_plugin_name' );
-register_deactivation_hook( __FILE__, 'deactivate_plugin_name' );
+register_activation_hook( __FILE__, 'activate_{%= underscored_slug %}' );
+register_deactivation_hook( __FILE__, 'deactivate_{%= underscored_slug %}' );
 
 /**
  * The core plugin class that is used to define internationalization,
  * dashboard-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-{%= slug %}.php';
 
 /**
  * Begins execution of the plugin.
@@ -66,10 +66,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-plugin-name.php';
  *
  * @since    {%= version %}
  */
-function run_plugin_name() {
+function run_{%= underscored_slug %}() {
 
 	$plugin = new {%= safe_name %}();
 	$plugin->run();
 
 }
-run_plugin_name();
+run_{%= underscored_slug %}();

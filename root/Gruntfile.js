@@ -28,9 +28,9 @@ module.exports = function( grunt ) {
 			},
 			dist: {
 				src: [
-					'assets/js/src/{%= js_safe_name %}.js'
+					'assets/js/src/{%= slug %}.js'
 				],
-				dest: 'assets/js/{%= js_safe_name %}.js'
+				dest: 'assets/js/{%= slug %}.js'
 			}
 		},
 		jshint: {
@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					'assets/js/{%= js_safe_name %}.min.js': ['assets/js/{%= js_safe_name %}.js']
+					'assets/js/{%= slug %}.min.js': ['assets/js/{%= slug %}.js']
 				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -80,7 +80,7 @@ module.exports = function( grunt ) {
 		sass:   {
 			all: {
 				files: {
-					'assets/css/{%= js_safe_name %}.css': 'assets/css/sass/{%= js_safe_name %}.scss'
+					'assets/css/{%= slug %}.css': 'assets/css/sass/{%= slug %}.scss'
 				}
 			}
 		},
@@ -88,7 +88,7 @@ module.exports = function( grunt ) {
 		less:   {
 			all: {
 				files: {
-					'assets/css/{%= js_safe_name %}.css': 'assets/css/less/{%= js_safe_name %}.less'
+					'assets/css/{%= slug %}.css': 'assets/css/less/{%= slug %}.less'
 				}
 			}		
 		},
@@ -105,10 +105,10 @@ module.exports = function( grunt ) {
 				expand: true,
 				{% if ('sass' === css_type || 'less' === css_type) { %}
 				cwd: 'assets/css/',				
-				src: ['{%= js_safe_name %}.css'],
+				src: ['{%= slug %}.css'],
 				{% } else { %}
 				cwd: 'assets/css/src/',
-				src: ['{%= js_safe_name %}.css'],
+				src: ['{%= slug %}.css'],
 				{% } %}
 				dest: 'assets/css/',
 				ext: '.min.css'
@@ -153,7 +153,7 @@ module.exports = function( grunt ) {
 	        target: {
 	            options: {
 	                domainPath: '/languages/',    // Where to save the POT file.
-	                potFilename: '{%= js_safe_name %}.pot',   // Name of the POT file.
+	                potFilename: '{%= slug %}.pot',   // Name of the POT file.
 	                type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
 	            }
 	        }
@@ -185,12 +185,12 @@ module.exports = function( grunt ) {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/{%= js_safe_name %}.<%= pkg.version %>.zip'
+					archive: './release/{%= slug %}.<%= pkg.version %>.zip'
 				},
 				expand: true,
 				cwd: 'release/<%= pkg.version %>/',
 				src: ['**/*'],
-				dest: '{%= js_safe_name %}/'
+				dest: '{%= slug %}/'
 			}		
 		}
 	} );

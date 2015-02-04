@@ -109,45 +109,37 @@ exports.template = function( grunt, init, done ) {
 		// Generate safe name (e.g. My Plugin => My_Plugin)
 		props.safe_name = props.title.replace(/[\W_]+/g, '_');
 
-		//props.name = props.title.replace( /\s+/g, '-' ).toLowerCase();
-		props.name = slug;
+		// Generate underscored slug (e.g. my_plugin)
+		props.underscored_slug = props.slug.replace(/[-]+/g, '_');
 		
 		// Development prefix (i.e. to prefix PHP function names, variables)
 		// props.prefix = props.prefix.replace('/[^a-z_]/i', '').toLowerCase();
 		
 		// Development prefix in all caps (e.g. for constants)
 		//props.prefix_caps = props.prefix.toUpperCase();
-		
-		// An additional value, safe to use as a JavaScript identifier.
-		//props.js_safe_name = props.name.replace(/[\W_]+/g, '_').replace(/^(\d)/, '_$1');
-		props.js_safe_name = slug;
-		
-		// An additional value that won't conflict with NodeUnit unit tests.
-		props.js_test_safe_name = props.js_safe_name === 'test' ? 'myTest' : props.js_safe_name;
-		props.js_safe_name_caps = props.js_safe_name.toUpperCase();
 
 		// Files to copy and process
 		var files = init.filesToCopy( props );
 
 		switch( props.css_type.toLowerCase()[0] ) {
 			case 'l':
-				delete files[ 'assets/css/sass/' + props.js_safe_name + '.scss'];
-				delete files[ 'assets/css/src/' + props.js_safe_name + '.css' ];
+				delete files[ 'assets/css/sass/' + props.slug + '.scss'];
+				delete files[ 'assets/css/src/' + props.slug + '.css' ];
 				
 				props.devDependencies["grunt-contrib-less"] = "~0.5.0";
 				props.css_type = 'less';
 				break;
 			case 'n':
 			case undefined:
-				delete files[ 'assets/css/less/' + props.js_safe_name + '.less'];
-				delete files[ 'assets/css/sass/' + props.js_safe_name + '.scss'];
+				delete files[ 'assets/css/less/' + props.slug + '.less'];
+				delete files[ 'assets/css/sass/' + props.slug + '.scss'];
 				
 				props.css_type = 'none';
 				break;
 			// SASS is the default
 			default:
-				delete files[ 'assets/css/less/' + props.js_safe_name + '.less'];
-				delete files[ 'assets/css/src/' + props.js_safe_name + '.css' ];
+				delete files[ 'assets/css/less/' + props.slug + '.less'];
+				delete files[ 'assets/css/src/' + props.slug + '.css' ];
 				
 				props.devDependencies["grunt-contrib-sass"] = "~0.2.2";
 				props.css_type = 'sass';

@@ -92,9 +92,9 @@ class {%= safe_name %}_Admin {
 	public function __construct( $plugin ) {
 
 		$this->plugin = $plugin;
-		$this->plugin_slug = $this->plugin->get_plugin_slug();
-		$this->plugin_name = $this->plugin->get_plugin_name();
-		$this->version = $this->plugin->get_plugin_version();
+		$this->plugin_slug = $this->plugin->get( 'slug' );
+		$this->plugin_name = $this->plugin->get( 'name' );
+		$this->version = $this->plugin->get( 'version' );
 
 	}
 

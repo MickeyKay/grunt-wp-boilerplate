@@ -27,7 +27,7 @@
  * @subpackage {%= safe_name %}/includes
  * @author     {%= author_name %} {%= author_email %}
  */
-class {%= safe_name %} {
+class {%= safe_name %}_Plugin {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -101,8 +101,8 @@ class {%= safe_name %} {
 	 */
 	public function __construct() {
 
-		$this->plugin_slug = '{%= slug %}';
-		$this->plugin_name = __( '{%= title %}', '{%= slug %}' );
+		$this->slug = '{%= slug %}';
+		$this->name = __( '{%= title %}', '{%= slug %}' );
 		$this->version = '{%= version %}';
 
 		$this->load_dependencies();
@@ -170,7 +170,7 @@ class {%= safe_name %} {
 	private function set_locale() {
 
 		$plugin_i18n = new {%= safe_name %}_i18n();
-		$plugin_i18n->set_domain( $this->get_plugin_name() );
+		$plugin_i18n->set_domain( $this->slug );
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -233,26 +233,6 @@ class {%= safe_name %} {
 	}
 
 	/**
-	 * Get the plugin slug.
-	 *
-	 * @since     {%= version %}
-	 * @return    string    The slug of the plugin.
-	 */
-	public function get_plugin_slug() {
-		return $this->plugin_slug;
-	}
-
-	/**
-	 * Get the plugin display name.
-	 *
-	 * @since     {%= version %}
-	 * @return    string    The display name of the plugin.
-	 */
-	public function get_plugin_name() {
-		return $this->plugin_name;
-	}
-
-	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     {%= version %}
@@ -263,13 +243,13 @@ class {%= safe_name %} {
 	}
 
 	/**
-	 * Retrieve the version number of the plugin.
+	 * Get any plugin property.
 	 *
-	 * @since     {%= version %}
-	 * @return    string    The version number of the plugin.
+	 * @since     1.0.0
+	 * @return    mixed    The plugin property.
 	 */
-	public function get_version() {
-		return $this->version;
+	public function get( $property = '' ) {
+		return $this->$property;
 	}
 
 }

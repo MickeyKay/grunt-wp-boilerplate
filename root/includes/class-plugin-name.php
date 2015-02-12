@@ -44,7 +44,16 @@ class {%= safe_name %} {
 	 *
 	 * @since    {%= version %}
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string    $plugin_slug    The string used to uniquely identify this plugin.
+	 */
+	protected $plugin_slug;
+
+	/**
+	 * The display name of this plugin.
+	 *
+	 * @since    {%= version %}
+	 * @access   protected
+	 * @var      string    $plugin_name    The plugin display name.
 	 */
 	protected $plugin_name;
 
@@ -58,6 +67,30 @@ class {%= safe_name %} {
 	protected $version;
 
 	/**
+	 * The instance of this class.
+	 *
+	 * @since    {%= version %}
+	 * @access   protected
+	 * @var      {%= safe_name %}    $instance    The instance of this class.
+	 */
+	private static $instance = null;
+
+	/**
+     * Creates or returns an instance of this class.
+     *
+     * @return    {%= safe_name %}    A single instance of this class.
+     */
+    public static function get_instance( $args = array() ) {
+ 
+        if ( null == self::$instance ) {
+            self::$instance = new self( $args );
+        }
+ 
+        return self::$instance;
+ 
+    }
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -68,13 +101,15 @@ class {%= safe_name %} {
 	 */
 	public function __construct() {
 
-		$this->plugin_name = '{%= slug %}';
+		$this->plugin_slug = '{%= slug %}';
+		$this->plugin_name = __( '{%= title %}', '{%= slug %}' );
 		$this->version = '{%= version %}';
 
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_shared_hooks();
 
 	}
 
@@ -150,7 +185,7 @@ class {%= safe_name %} {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new {%= safe_name %}_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new {%= safe_name %}_Admin( $this );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -166,10 +201,25 @@ class {%= safe_name %} {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new {%= safe_name %}_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new {%= safe_name %}_Public( $this );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+	}
+
+	/**
+	 * Register all of the hooks related to both the admin and public-facing
+	 * functionality of the plugin.
+	 *
+	 * @since    {%= version %}
+	 * @access   private
+	 */
+	private function define_shared_hooks() {
+
+		$plugin_shared = $this;
+
+		// Define actions that are shared by both the public and admin.
 
 	}
 
@@ -183,11 +233,20 @@ class {%= safe_name %} {
 	}
 
 	/**
-	 * The name of the plugin used to uniquely identify it within the context of
-	 * WordPress and to define internationalization functionality.
+	 * Get the plugin slug.
 	 *
 	 * @since     {%= version %}
-	 * @return    string    The name of the plugin.
+	 * @return    string    The slug of the plugin.
+	 */
+	public function get_plugin_slug() {
+		return $this->plugin_slug;
+	}
+
+	/**
+	 * Get the plugin display name.
+	 *
+	 * @since     {%= version %}
+	 * @return    string    The display name of the plugin.
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;

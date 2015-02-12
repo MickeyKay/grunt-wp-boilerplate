@@ -23,13 +23,31 @@
 class {%= safe_name %}_Public {
 
 	/**
-	 * The ID of this plugin.
+	 * The main plugin instance.
 	 *
 	 * @since    {%= version %}
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      {%= safe_name %}    $plugin    The main plugin instance.
 	 */
-	private $plugin_name;
+	private $plugin;
+
+	/**
+	 * The slug of this plugin.
+	 *
+	 * @since    {%= version %}
+	 * @access   private
+	 * @var      string    $plugin_slug    The slug of this plugin.
+	 */
+	private $plugin_slug;
+
+	/**
+	 * The display name of this plugin.
+	 *
+	 * @since    {%= version %}
+	 * @access   protected
+	 * @var      string    $plugin_name    The plugin display name.
+	 */
+	protected $plugin_name;
 
 	/**
 	 * The version of this plugin.
@@ -41,16 +59,42 @@ class {%= safe_name %}_Public {
 	private $version;
 
 	/**
+	 * The instance of this class.
+	 *
+	 * @since    {%= version %}
+	 * @access   protected
+	 * @var      {%= safe_name %}_Public    $instance    The instance of this class.
+	 */
+	private static $instance = null;
+
+	/**
+     * Creates or returns an instance of this class.
+     *
+     * @return    {%= safe_name %}_Public    A single instance of this class.
+     */
+    public static function get_instance( $plugin ) {
+ 
+        if ( null == self::$instance ) {
+            self::$instance = new self( $plugin );
+        }
+ 
+        return self::$instance;
+ 
+    }
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    {%= version %}
-	 * @var      string    $plugin_name    The name of the plugin.
+	 * @var      string    $plugin_slug    The name of the plugin.
 	 * @var      string    $version        The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin ) {
 
-		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->plugin = $plugin;
+		$this->plugin_slug = $this->plugin->get_plugin_slug();
+		$this->plugin_name = $this->plugin->get_plugin_name();
+		$this->version = $this->plugin->get_plugin_version();
 
 	}
 
@@ -73,7 +117,7 @@ class {%= safe_name %}_Public {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/{%= slug %}-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/{%= slug %}-public.css', array(), $this->version, 'all' );
 
 	}
 
@@ -96,7 +140,7 @@ class {%= safe_name %}_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/{%= slug %}-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/{%= slug %}-public.js', array( 'jquery' ), $this->version, false );
 
 	}
 

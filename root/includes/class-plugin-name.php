@@ -27,7 +27,7 @@
  * @subpackage {%= safe_name %}/includes
  * @author     {%= author_name %} {%= author_email %}
  */
-class {%= safe_name %}_Plugin {
+class {%= safe_name %} {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power

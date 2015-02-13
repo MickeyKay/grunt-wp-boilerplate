@@ -3,12 +3,15 @@
 
 module.exports = function( grunt ) {
 
+	// Grab package as variable for later use/
+	var pkg = grunt.file.readJSON( 'package.json' );
+
 	// Load all tasks.
 	require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
 	// Project configuration
 	grunt.initConfig( {
-		pkg:    grunt.file.readJSON( 'package.json' ),
+		pkg: pkg,
 		devUpdate: {
 	        main: {
 	            options: {

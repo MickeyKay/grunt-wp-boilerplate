@@ -16,7 +16,7 @@
  * Plugin Name:       {%= title %}
  * Plugin URI:        {%= homepage %}
  * Description:       {%= description %}
- * Version:           {%= version %}
+ * Version:           %VERSION%
  * Author:            {%= author_name %} or Your Company
  * Author URI:        {%= homepage %}/
  * License:           GPL-2.0+

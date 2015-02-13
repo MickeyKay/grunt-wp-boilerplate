@@ -28,9 +28,9 @@ module.exports = function( grunt ) {
 			},
 			dist: {
 				src: [
-					'assets/js/src/igg-api.js'
+					'assets/js/src/{%= slug %}.js'
 				],
-				dest: 'assets/js/igg-api.js'
+				dest: 'assets/js/{%= slug %}.js'
 			}
 		},
 		jshint: {
@@ -59,7 +59,7 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					'assets/js/igg-api.min.js': ['assets/js/igg-api.js']
+					'assets/js/{%= slug %}.min.js': ['assets/js/{%= slug %}.js']
 				},
 				options: {
 					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -76,7 +76,23 @@ module.exports = function( grunt ) {
 		test:   {
 			files: ['assets/js/test/**/*.js']
 		},
-		
+		{% if ('sass' === css_type) { %}
+		sass:   {
+			all: {
+				files: {
+					'assets/css/{%= slug %}.css': 'assets/css/sass/{%= slug %}.scss'
+				}
+			}
+		},
+		{% } else if ('less' === css_type) { %}
+		less:   {
+			all: {
+				files: {
+					'assets/css/{%= slug %}.css': 'assets/css/less/{%= slug %}.less'
+				}
+			}		
+		},
+		{% } %}
 		cssmin: {
 			options: {
 				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
@@ -87,16 +103,35 @@ module.exports = function( grunt ) {
 			},
 			minify: {
 				expand: true,
-				
+				{% if ('sass' === css_type || 'less' === css_type) { %}
+				cwd: 'assets/css/',				
+				src: ['{%= slug %}.css'],
+				{% } else { %}
 				cwd: 'assets/css/src/',
-				src: ['igg-api.css'],
-				
+				src: ['{%= slug %}.css'],
+				{% } %}
 				dest: 'assets/css/',
 				ext: '.min.css'
 			}
 		},
 		watch:  {
-			
+			{% if ('sass' === css_type) { %}
+			sass: {
+				files: ['assets/css/sass/*.scss'],
+				tasks: ['sass', 'cssmin'],
+				options: {
+					debounceDelay: 500
+				}
+			},
+			{% } else if ('less' === css_type) { %}
+			less: {
+				files: ['assets/css/less/*.less'],
+				tasks: ['less', 'cssmin'],
+				options: {
+					debounceDelay: 500
+				}
+			},
+			{% } else { %}
 			styles: {
 				files: ['assets/css/src/*.css'],
 				tasks: ['cssmin'],
@@ -104,7 +139,7 @@ module.exports = function( grunt ) {
 					debounceDelay: 500
 				}
 			},
-			
+			{% } %}
 			scripts: {
 				files: ['assets/js/src/**/*.js', 'assets/js/vendor/**/*.js'],
 				tasks: ['jshint', 'concat', 'uglify'],
@@ -118,7 +153,7 @@ module.exports = function( grunt ) {
 	        target: {
 	            options: {
 	                domainPath: '/languages/',    // Where to save the POT file.
-	                potFilename: 'igg-api.pot',   // Name of the POT file.
+	                potFilename: '{%= slug %}.pot',   // Name of the POT file.
 	                type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
 	            }
 	        }
@@ -146,25 +181,49 @@ module.exports = function( grunt ) {
 					'!vendor/autoload.php',
 					'!vendor/composer/**'
 				],
-				dest: 'release/<%= pkg.version %>/'
+				dest: 'release/<%= pkg.version %>/',
+				options: {
+					process: function (content, srcpath) {
+						// Update the version number in various files
+						return content.replace( /%VERSION%/g, pkg.version );
+					},
+				},
 			}		
 		},
 		compress: {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/igg-api.<%= pkg.version %>.zip'
+					archive: './release/{%= slug %}.<%= pkg.version %>.zip'
 				},
 				expand: true,
 				cwd: 'release/<%= pkg.version %>/',
 				src: ['**/*'],
-				dest: 'igg-api/'
+				dest: '{%= slug %}/'
 			}		
 		}
 	} );
 	
 	// Default task.
-	
+	{% if ('sass' === css_type) { %}
+	grunt.registerTask( 'default', [
+		'jshint',
+		'concat',
+		'uglify',
+		'sass',
+		'cssmin',
+		'makepot'
+	] );
+	{% } else if ('less' === css_type) { %}
+	grunt.registerTask( 'default', [
+		'jshint',
+		'concat',
+		'uglify',
+		'less',
+		'cssmin',
+		'makepot'
+	] );
+	{% } else { %}
 	grunt.registerTask( 'default', [
 		'jshint',
 		'concat',
@@ -172,7 +231,7 @@ module.exports = function( grunt ) {
 		'cssmin',
 		'makepot'
 	] );
-	
+	{% } %}
 	
 	grunt.registerTask( 'build', [
 		'devUpdate',

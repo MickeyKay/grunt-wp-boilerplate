@@ -57,7 +57,7 @@ module.exports = function( grunt ) {
 					exports: true,
 					module:  false
 				}
-			}		
+			}
 		},
 		uglify: {
 			all: {
@@ -93,7 +93,7 @@ module.exports = function( grunt ) {
 				files: {
 					'assets/css/{%= slug %}.css': 'assets/css/less/{%= slug %}.less'
 				}
-			}		
+			}
 		},
 		{% } %}
 		cssmin: {
@@ -107,7 +107,7 @@ module.exports = function( grunt ) {
 			minify: {
 				expand: true,
 				{% if ('sass' === css_type || 'less' === css_type) { %}
-				cwd: 'assets/css/',				
+				cwd: 'assets/css/',
 				src: ['{%= slug %}.css'],
 				{% } else { %}
 				cwd: 'assets/css/src/',
@@ -184,29 +184,29 @@ module.exports = function( grunt ) {
 					'!vendor/autoload.php',
 					'!vendor/composer/**'
 				],
-				dest: 'release/<%= pkg.version %>/',
+				dest: 'release/{%= slug %}-<%= pkg.version %>/',
 				options: {
 					process: function (content, srcpath) {
 						// Update the version number in various files
 						return content.replace( /%VERSION%/g, pkg.version );
 					},
 				},
-			}		
+			}
 		},
 		compress: {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/{%= slug %}.<%= pkg.version %>.zip'
+					archive: './release/{%= slug %}-<%= pkg.version %>.zip'
 				},
 				expand: true,
 				cwd: 'release/<%= pkg.version %>/',
 				src: ['**/*'],
 				dest: '{%= slug %}/'
-			}		
+			}
 		}
 	} );
-	
+
 	// Default task.
 	{% if ('sass' === css_type) { %}
 	grunt.registerTask( 'default', [
@@ -235,7 +235,7 @@ module.exports = function( grunt ) {
 		'makepot'
 	] );
 	{% } %}
-	
+
 	grunt.registerTask( 'build', [
 		'devUpdate',
 		'default',

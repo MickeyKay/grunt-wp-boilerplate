@@ -2,7 +2,7 @@
 
 > Create a WordPress plugin with [grunt-init][] based on the [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate)
 
-== Mickey's topics to cover ==
+##Mickey's topics to cover##
 1. Run grunt-init
 2. Run npm install
 4. Add dependencies in composer

@@ -184,7 +184,7 @@ module.exports = function( grunt ) {
 					'!vendor/autoload.php',
 					'!vendor/composer/**'
 				],
-				dest: 'release/{%= slug %}-<%= pkg.version %>/',
+				dest: 'release/<%= pkg.version %>/{%= slug %}/',
 				options: {
 					process: function (content, srcpath) {
 						// Update the version number in various files
@@ -197,10 +197,10 @@ module.exports = function( grunt ) {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/{%= slug %}-<%= pkg.version %>.zip'
+					archive: './release/<%= pkg.version %>/{%= slug %}.zip'
 				},
 				expand: true,
-				cwd: 'release/<%= pkg.version %>/',
+				cwd: 'release/<%= pkg.version %>/{%= slug %}/',
 				src: ['**/*'],
 				dest: '{%= slug %}/'
 			}

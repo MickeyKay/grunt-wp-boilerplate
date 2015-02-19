@@ -68,7 +68,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-{%= slug %}.php';
  */
 function run_{%= underscored_slug %}() {
 
-	$plugin = new {%= safe_name %}();
+	$plugin = {%= safe_name %}::get_instance();
 	$plugin->run();
 
 }

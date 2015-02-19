@@ -72,7 +72,7 @@ exports.template = function( grunt, init, done ) {
 			message: 'Homepage',
 			default: 'http://wordpress.org/plugins/' + slug
 		},
-		
+
 		// Check ~/.grunt-init/defaults.json for global/system defaults
 		init.prompt( 'author_name' ),
 		init.prompt( 'author_email' ),
@@ -101,20 +101,20 @@ exports.template = function( grunt, init, done ) {
 			'grunt-wp-i18n':          'latest',
 			'load-grunt-tasks':       'latest'
 		};
-		
+
 		/**
 		 * Sanitize names where we need to for PHP/JS
 		 */
-		
+
 		// Generate safe name (e.g. My Plugin => My_Plugin)
 		props.safe_name = props.title.replace(/[\W_]+/g, '_');
 
 		// Generate underscored slug (e.g. my_plugin)
 		props.underscored_slug = props.slug.replace(/[-]+/g, '_');
-		
+
 		// Development prefix (i.e. to prefix PHP function names, variables)
 		// props.prefix = props.prefix.replace('/[^a-z_]/i', '').toLowerCase();
-		
+
 		// Development prefix in all caps (e.g. for constants)
 		//props.prefix_caps = props.prefix.toUpperCase();
 
@@ -125,7 +125,7 @@ exports.template = function( grunt, init, done ) {
 			case 'l':
 				delete files[ 'assets/css/sass/' + props.slug + '.scss'];
 				delete files[ 'assets/css/src/' + props.slug + '.css' ];
-				
+
 				props.devDependencies["grunt-contrib-less"] = "~0.5.0";
 				props.css_type = 'less';
 				break;
@@ -133,21 +133,21 @@ exports.template = function( grunt, init, done ) {
 			case undefined:
 				delete files[ 'assets/css/less/' + props.slug + '.less'];
 				delete files[ 'assets/css/sass/' + props.slug + '.scss'];
-				
+
 				props.css_type = 'none';
 				break;
 			// SASS is the default
 			default:
 				delete files[ 'assets/css/less/' + props.slug + '.less'];
 				delete files[ 'assets/css/src/' + props.slug + '.css' ];
-				
+
 				props.devDependencies["grunt-contrib-sass"] = "~0.2.2";
 				props.css_type = 'sass';
 				break;
 		}
-		
+
 		console.log( files );
-		
+
 		// Actually copy and process files
 		init.copyAndProcess( files, props );
 
@@ -158,14 +158,14 @@ exports.template = function( grunt, init, done ) {
 		 * able to find a good way to wildcard search and replace for
 		 * 'plugin-name'.
 		 */
-		grunt.file.recurse(process.cwd(), function ( abspath, rootdir, subdir, filename ) { 
-			
+		grunt.file.recurse(process.cwd(), function ( abspath, rootdir, subdir, filename ) {
+
 			// Rename any file with 'plugin-name' in the filename
 			if ( filename.indexOf( 'plugin-name' ) > -1 ) {
-				
+
 				// Generate new file name
 				var newAbspath = abspath.replace( 'plugin-name', props.slug);
-				
+
 				// Copy original template file into new named file
 				grunt.file.copy(abspath, newAbspath);
 
@@ -175,10 +175,10 @@ exports.template = function( grunt, init, done ) {
 			}
 
 		});
-		
+
 		// Generate package.json file
 		init.writePackageJSON( 'package.json', props );
-		
+
 		// Done!
 		done();
 

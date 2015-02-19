@@ -99,7 +99,7 @@ class {%= safe_name %}_Admin {
 	}
 
 	/**
-	 * Register the stylesheets for the Dashboard.
+	 * Register the stylesheets for the admin.
 	 *
 	 * @since    {%= version %}
 	 */
@@ -122,7 +122,7 @@ class {%= safe_name %}_Admin {
 	}
 
 	/**
-	 * Register the JavaScript for the dashboard.
+	 * Register the scripts for the admin.
 	 *
 	 * @since    {%= version %}
 	 */

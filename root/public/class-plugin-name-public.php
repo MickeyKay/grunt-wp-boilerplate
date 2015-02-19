@@ -122,7 +122,7 @@ class {%= safe_name %}_Public {
 	}
 
 	/**
-	 * Register the stylesheets for the public-facing side of the site.
+	 * Register the scripts for the public-facing side of the site.
 	 *
 	 * @since    {%= version %}
 	 */

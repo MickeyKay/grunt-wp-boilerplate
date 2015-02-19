@@ -44,18 +44,18 @@ class {%= safe_name %} {
 	 *
 	 * @since    {%= version %}
 	 * @access   protected
-	 * @var      string    $plugin_slug    The string used to uniquely identify this plugin.
+	 * @var      string    $slug    The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_slug;
+	protected $slug;
 
 	/**
 	 * The display name of this plugin.
 	 *
 	 * @since    {%= version %}
 	 * @access   protected
-	 * @var      string    $plugin_name    The plugin display name.
+	 * @var      string    $name    The plugin display name.
 	 */
-	protected $plugin_name;
+	protected $name;
 
 	/**
 	 * The current version of the plugin.

@@ -18,7 +18,7 @@
  * Description:       {%= description %}
  * Version:           %VERSION%
  * Author:            {%= author_name %} or Your Company
- * Author URI:        {%= homepage %}/
+ * Author URI:        {%= author_url %}/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       {%= slug %}

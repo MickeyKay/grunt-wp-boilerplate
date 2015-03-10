@@ -15,8 +15,10 @@ module.exports = function( grunt ) {
 		devUpdate: {
 	        main: {
 	            options: {
-	                updateType: 'force',
-	                semver: false,
+	                updateType: 'prompt',
+	                packages: {
+	                    devDependencies: true
+	                },
 	            }
 	        }
 	    },

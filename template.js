@@ -60,7 +60,7 @@ exports.template = function( grunt, init, done ) {
 		{
 			name   : 'wp_contributors',
 			message: 'Contributors (wordpress.org usernames)',
-			default: 'McGuive7'
+			default: 'MIGHTYminnow'
 		},
 		{
 			name   : 'tags',
@@ -72,30 +72,41 @@ exports.template = function( grunt, init, done ) {
 			message: 'Homepage',
 			default: 'http://wordpress.org/plugins/' + slug
 		},
+		{
+			name   : 'svn_repo',
+			message: 'WordPress SVN repo',
+			default: 'http://plugins.svn.wordpress.org/' + slug
+		},
 
 		// Check ~/.grunt-init/defaults.json for global/system defaults
-		init.prompt( 'author_name' ),
-		init.prompt( 'author_email' ),
-		init.prompt( 'author_url' ),
+		// init.prompt( 'author_name' ),
+		// init.prompt( 'author_email' ),
+		// init.prompt( 'author_url' ),
 		{
-			name: 'css_type',
-			message: 'CSS Preprocessor: Will you use "Sass", "LESS", or "none" for CSS with this project?',
-			default: 'none'
-		}
+			name   : 'author_name',
+			message: 'Author name',
+			default: 'MIGHTYminnow Web Studio & School'
+		},
+		{
+			name   : 'author_email',
+			message: 'Author email',
+			default: 'info@mightyminnow.com'
+		},
+		{
+			name   : 'author_url',
+			message: 'Author URL',
+			default: 'http://mightyminnow.com'
+		},
 	], function( err, props ) {
 		props.keywords = [];
 		props.devDependencies = {
 			'grunt':                  'latest',
-			'grunt-contrib-concat':   'latest',
-			'grunt-contrib-uglify':   'latest',
-			'grunt-contrib-cssmin':   'latest',
 			'grunt-contrib-jshint':   'latest',
 			'grunt-contrib-nodeunit': 'latest',
 			'grunt-contrib-watch':    'latest',
 			'grunt-contrib-clean':    'latest',
-			'grunt-contrib-copy':     'latest',
-			'grunt-csscomb':          'latest',
-			'grunt-regex-replace':    'latest',
+			'grunt-contrib-copy':     '^0.7.0',
+			'grunt-version':          'latest',
 			'grunt-contrib-compress': 'latest',
 			'grunt-dev-update':       'latest',
 			'grunt-wp-i18n':          'latest',
@@ -121,30 +132,30 @@ exports.template = function( grunt, init, done ) {
 		// Files to copy and process
 		var files = init.filesToCopy( props );
 
-		switch( props.css_type.toLowerCase()[0] ) {
-			case 'l':
-				delete files[ 'assets/css/sass/' + props.slug + '.scss'];
-				delete files[ 'assets/css/src/' + props.slug + '.css' ];
+		// switch( props.css_type.toLowerCase()[0] ) {
+		// 	case 'l':
+		// 		delete files[ 'assets/css/sass/' + props.slug + '.scss'];
+		// 		delete files[ 'assets/css/src/' + props.slug + '.css' ];
 
-				props.devDependencies["grunt-contrib-less"] = "~0.5.0";
-				props.css_type = 'less';
-				break;
-			case 'n':
-			case undefined:
-				delete files[ 'assets/css/less/' + props.slug + '.less'];
-				delete files[ 'assets/css/sass/' + props.slug + '.scss'];
+		// 		props.devDependencies["grunt-contrib-less"] = "~0.5.0";
+		// 		props.css_type = 'less';
+		// 		break;
+		// 	case 'n':
+		// 	case undefined:
+		// 		delete files[ 'assets/css/less/' + props.slug + '.less'];
+		// 		delete files[ 'assets/css/sass/' + props.slug + '.scss'];
 
-				props.css_type = 'none';
-				break;
-			// SASS is the default
-			default:
-				delete files[ 'assets/css/less/' + props.slug + '.less'];
-				delete files[ 'assets/css/src/' + props.slug + '.css' ];
+		// 		props.css_type = 'none';
+		// 		break;
+		// 	// SASS is the default
+		// 	default:
+		// 		delete files[ 'assets/css/less/' + props.slug + '.less'];
+		// 		delete files[ 'assets/css/src/' + props.slug + '.css' ];
 
-				props.devDependencies["grunt-contrib-sass"] = "~0.2.2";
-				props.css_type = 'sass';
-				break;
-		}
+		// 		props.devDependencies["grunt-contrib-sass"] = "~0.2.2";
+		// 		props.css_type = 'sass';
+		// 		break;
+		// }
 
 		console.log( files );
 

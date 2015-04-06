@@ -16,8 +16,8 @@
  * Plugin Name:       {%= title %}
  * Plugin URI:        {%= homepage %}
  * Description:       {%= description %}
- * Version:           %VERSION%
- * Author:            {%= author_name %} or Your Company
+ * Version:           {%= version %}
+ * Author:            {%= author_name %}
  * Author URI:        {%= author_url %}/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt

@@ -103,7 +103,7 @@ class {%= safe_name %} {
 
 		$this->slug = '{%= slug %}';
 		$this->name = __( '{%= title %}', '{%= slug %}' );
-		$this->version = '%VERSION%';
+		$this->version = '{%= version %}';
 
 		$this->load_dependencies();
 		$this->set_locale();

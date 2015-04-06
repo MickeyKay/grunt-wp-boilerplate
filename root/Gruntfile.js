@@ -22,28 +22,53 @@ module.exports = function( grunt ) {
 	            }
 	        }
 	    },
-		jshint: {
-			all: [
-				'Gruntfile.js'
-			],
-			options: {
-				curly:   true,
-				eqeqeq:  true,
-				immed:   true,
-				latedef: true,
-				newcap:  true,
-				noarg:   true,
-				sub:     true,
-				undef:   true,
-				boss:    true,
-				eqnull:  true,
-				globals: {
-					exports: true,
-					module:  false
+	    prompt: {
+			version: {
+				options: {
+					questions: [
+						{
+							config:  'newVersion',
+							type:    'input',
+							message: 'What specific version would you like',
+							default: '<%= pkg.version %>' 
+						}
+					]
 				}
 			}
 		},
-		// https://www.npmjs.org/package/grunt-wp-i18n
+		replace: {
+			package: {
+				src: ['package.json'],
+   				overwrite: true,
+    			replacements: [
+	    			{
+	    				  "version": "1.0.0",
+	    				from: /("version":\s*).*,\n/g,
+	    				to: '$1"<%= newVersion %>",\n'
+	    			}
+    			]
+			},
+			readme: {
+				src: ['readme.txt'],
+   				overwrite: true,
+    			replacements: [
+	    			{
+	    				from: /(Stable tag:\s*).*\n/g,
+	    				to: '$1<%= newVersion %>\n'
+	    			}
+    			]
+			},
+			php: {
+				src: ['{%= slug %}.php'],
+   				overwrite: true,
+    			replacements: [
+	    			{
+	    				from: /(\*\s*Version:\s*).*\n/g,
+	    				to: '$1<%= newVersion %>\n'
+	    			}
+    			]
+			}
+		},
 	    makepot: {
 	        target: {
 	            options: {
@@ -53,9 +78,6 @@ module.exports = function( grunt ) {
 	            }
 	        }
 	    },
-		clean: {
-			main: ['release/<%= pkg.version %>']
-		},
 		copy: {
 			// Copy the plugin to a versioned release directory
 			main: {
@@ -78,39 +100,27 @@ module.exports = function( grunt ) {
 					'!vendor/autoload.php',
 					'!vendor/composer/**'
 				],
-				dest: 'release/<%= pkg.version %>/{%= slug %}/',
-				options: {
-					process: function (content, srcpath) {
-						// Update the version number in various files
-						return content.replace( /%VERSION%/g, pkg.version );
-					},
-				},
+				dest: 'release/<%= newVersion %>/{%= slug %}/',
 			}
 		},
 		compress: {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './release/<%= pkg.version %>/{%= slug %}.zip'
+					archive: './release/<%= newVersion %>/{%= slug %}.zip'
 				},
 				expand: true,
-				cwd: 'release/<%= pkg.version %>/{%= slug %}/',
+				cwd: 'release/<%= newVersion %>/tester-2/',
 				src: ['**/*'],
 				dest: '{%= slug %}/'
 			}
 		}
 	} );
 
-	grunt.registerTask( 'default', [
-		'jshint',
-		'makepot'
-	] );
-
 	grunt.registerTask( 'build', [
-		'devUpdate',
-		'default',
+		'prompt',
+		'replace',
 		'makepot',
-		'clean',
 		'copy',
 		'compress'
 	] );

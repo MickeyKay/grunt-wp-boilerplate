@@ -72,11 +72,6 @@ exports.template = function( grunt, init, done ) {
 			message: 'Homepage',
 			default: 'http://wordpress.org/plugins/' + slug
 		},
-		{
-			name   : 'svn_repo',
-			message: 'WordPress SVN repo',
-			default: 'http://plugins.svn.wordpress.org/' + slug
-		},
 
 		// Check ~/.grunt-init/defaults.json for global/system defaults
 		// init.prompt( 'author_name' ),
@@ -97,20 +92,27 @@ exports.template = function( grunt, init, done ) {
 			message: 'Author URL',
 			default: 'http://mightyminnow.com'
 		},
+		{
+			name   : 'git_repo',
+			message: 'Github repo',
+			default: 'https://github.com/MIGHTYminnow/' + slug
+		},
+		{
+			name   : 'svn_repo',
+			message: 'WordPress SVN repo',
+			default: 'http://plugins.svn.wordpress.org/' + slug
+		},
 	], function( err, props ) {
 		props.keywords = [];
 		props.devDependencies = {
 			'grunt':                  'latest',
-			'grunt-contrib-jshint':   'latest',
-			'grunt-contrib-nodeunit': 'latest',
-			'grunt-contrib-watch':    'latest',
-			'grunt-contrib-clean':    'latest',
-			'grunt-contrib-copy':     '^0.7.0',
-			'grunt-version':          'latest',
-			'grunt-contrib-compress': 'latest',
+			'load-grunt-tasks':       'latest',
 			'grunt-dev-update':       'latest',
+			'grunt-prompt':           'latest',
+			'grunt-text-replace':     'latest',
 			'grunt-wp-i18n':          'latest',
-			'load-grunt-tasks':       'latest'
+			'grunt-contrib-copy':     '^0.7.0',
+			'grunt-contrib-compress': 'latest',
 		};
 
 		/**
@@ -123,41 +125,8 @@ exports.template = function( grunt, init, done ) {
 		// Generate underscored slug (e.g. my_plugin)
 		props.underscored_slug = props.slug.replace(/[-]+/g, '_');
 
-		// Development prefix (i.e. to prefix PHP function names, variables)
-		// props.prefix = props.prefix.replace('/[^a-z_]/i', '').toLowerCase();
-
-		// Development prefix in all caps (e.g. for constants)
-		//props.prefix_caps = props.prefix.toUpperCase();
-
 		// Files to copy and process
 		var files = init.filesToCopy( props );
-
-		// switch( props.css_type.toLowerCase()[0] ) {
-		// 	case 'l':
-		// 		delete files[ 'assets/css/sass/' + props.slug + '.scss'];
-		// 		delete files[ 'assets/css/src/' + props.slug + '.css' ];
-
-		// 		props.devDependencies["grunt-contrib-less"] = "~0.5.0";
-		// 		props.css_type = 'less';
-		// 		break;
-		// 	case 'n':
-		// 	case undefined:
-		// 		delete files[ 'assets/css/less/' + props.slug + '.less'];
-		// 		delete files[ 'assets/css/sass/' + props.slug + '.scss'];
-
-		// 		props.css_type = 'none';
-		// 		break;
-		// 	// SASS is the default
-		// 	default:
-		// 		delete files[ 'assets/css/less/' + props.slug + '.less'];
-		// 		delete files[ 'assets/css/src/' + props.slug + '.css' ];
-
-		// 		props.devDependencies["grunt-contrib-sass"] = "~0.2.2";
-		// 		props.css_type = 'sass';
-		// 		break;
-		// }
-
-		console.log( files );
 
 		// Actually copy and process files
 		init.copyAndProcess( files, props );
@@ -187,6 +156,14 @@ exports.template = function( grunt, init, done ) {
 
 		});
 
+		// Set up Github repo - doesn't work yet because exec runs asynchronously
+		// exec( "git init" );
+		// exec( "git add -A" );
+		// exec( "git remote add origin " + props.git_repo );
+
+		// Set up SVN repo
+		exec( "svn co " + props.svn_repo + " svn" );
+
 		// Generate package.json file
 		init.writePackageJSON( 'package.json', props );
 
@@ -195,3 +172,10 @@ exports.template = function( grunt, init, done ) {
 
 	});
 };
+
+
+// Set up command line functionality
+var sys = require('sys');
+var execProcess = require('child_process').exec;
+function exec( command ) { execProcess( command ), puts }
+function puts(error, stdout, stderr) { sys.puts(stdout) }

@@ -90,7 +90,7 @@ exports.template = function( grunt, init, done ) {
 		{
 			name   : 'author_url',
 			message: 'Author URL',
-			default: 'http://mightyminnow.com'
+			default: 'http://mightyminnow.com/plugin-landing-page?utm_source=' + slug + '&utm_medium=plugin-repo&utm_campaign=WordPress%20Plugins'
 		},
 		{
 			name   : 'git_repo',

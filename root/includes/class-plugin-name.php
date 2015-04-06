@@ -30,6 +30,15 @@
 class {%= safe_name %} {
 
 	/**
+	 * The main plugin file.
+	 *
+	 * @since    {%= version %}
+	 * @access   protected
+	 * @var      string    $plugin_file    The main plugin file.
+	 */
+	protected $plugin_file;
+
+	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
@@ -81,13 +90,13 @@ class {%= safe_name %} {
      * @return    {%= safe_name %}    A single instance of this class.
      */
     public static function get_instance( $args = array() ) {
- 
+
         if ( null == self::$instance ) {
             self::$instance = new self( $args );
         }
- 
+
         return self::$instance;
- 
+
     }
 
 	/**
@@ -99,7 +108,9 @@ class {%= safe_name %} {
 	 *
 	 * @since    {%= version %}
 	 */
-	public function __construct() {
+	public function __construct( $args ) {
+
+		$this->plugin_file = $args['plugin_file'];
 
 		$this->slug = '{%= slug %}';
 		$this->name = __( '{%= title %}', '{%= slug %}' );
@@ -185,7 +196,7 @@ class {%= safe_name %} {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new {%= safe_name %}_Admin( $this );
+		$plugin_admin = {%= safe_name %}_Admin::get_instance( $this );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
@@ -201,7 +212,7 @@ class {%= safe_name %} {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new {%= safe_name %}_Public( $this );
+		$plugin_public = {%= safe_name %}_Public::get_instance( $this );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );

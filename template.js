@@ -112,7 +112,6 @@ exports.template = function( grunt, init, done ) {
 			'grunt-text-replace':     'latest',
 			'grunt-wp-i18n':          'latest',
 			'grunt-contrib-copy':     '^0.7.0',
-			'grunt-contrib-compress': 'latest',
 		};
 
 		/**

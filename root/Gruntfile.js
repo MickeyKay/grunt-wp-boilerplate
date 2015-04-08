@@ -79,8 +79,7 @@ module.exports = function( grunt ) {
 	        }
 	    },
 		copy: {
-			// Copy the plugin to a versioned release directory
-			main: {
+			svnTrunk: {
 				src:  [
 					'**',
 					'!node_modules/**',
@@ -100,19 +99,12 @@ module.exports = function( grunt ) {
 					'!vendor/autoload.php',
 					'!vendor/composer/**'
 				],
-				dest: 'release/<%= newVersion %>/{%= slug %}/',
-			}
-		},
-		compress: {
-			main: {
-				options: {
-					mode: 'zip',
-					archive: './release/<%= newVersion %>/{%= slug %}.zip'
-				},
-				expand: true,
-				cwd: 'release/<%= newVersion %>/tester-2/',
-				src: ['**/*'],
-				dest: '{%= slug %}/'
+				dest: 'svn/trunk/',
+			},
+			svnTags: {
+				cwd:  'svn/trunk/',
+				src: ['**'],
+				dest: 'svn/tags/<%= newVersion %>/',
 			}
 		}
 	} );
@@ -121,8 +113,7 @@ module.exports = function( grunt ) {
 		'prompt',
 		'replace',
 		'makepot',
-		'copy',
-		'compress'
+		'copy'
 	] );
 
 	grunt.util.linefeed = '\n';

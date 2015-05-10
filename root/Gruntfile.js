@@ -89,7 +89,7 @@ module.exports = function( grunt ) {
 				src:  [
 					'**',
 					'!node_modules/**',
-					'!release/**',
+					'!svn/**',
 					'!.git/**',
 					'!.sass-cache/**',
 					'!css/src/**',

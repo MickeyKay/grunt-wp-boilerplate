@@ -84,7 +84,7 @@ module.exports = function( grunt ) {
 				src: ['**'],
 				dest: 'svn/tags/<%= newVersion %>/',
 				expand: true,
-			}
+			},
 			svnTrunk: {
 				src:  [
 					'**',

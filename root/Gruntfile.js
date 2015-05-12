@@ -80,9 +80,9 @@ module.exports = function( grunt ) {
 	    },
 		copy: {
 			svnAssets: {
-				cwd:  'svn/assets/',
+				cwd: 'assets/',
 				src: ['**'],
-				dest: 'svn/tags/<%= newVersion %>/',
+				dest: 'svn/assets/',
 				expand: true,
 			},
 			svnTrunk: {

@@ -12,7 +12,7 @@ License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-**Do you find this plugin helpful? Please consider [leaving a 5-star review](https://wordpress.org/support/view/plugin-reviews/{%= slug %}).**
+**Like this plugin? Please consider [leaving a 5-star review](https://wordpress.org/support/view/plugin-reviews/{%= slug %}).**
 
 Description here.
 

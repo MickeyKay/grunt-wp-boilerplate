@@ -69,6 +69,16 @@ module.exports = function( grunt ) {
     			]
 			}
 		},
+		wp_readme_to_markdown: {
+			your_target: {
+	      		files: {
+	      			'readme.md': 'readme.txt'
+	      		},
+	      		options:{
+   					screenshot_url: '',
+				},
+ 		 	},
+		},
 	    makepot: {
 	        target: {
 	            options: {
@@ -119,6 +129,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'build', [
 		'prompt',
 		'replace',
+		'wp_readme_to_markdown',
 		'makepot',
 		'copy'
 	] );

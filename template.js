@@ -105,13 +105,14 @@ exports.template = function( grunt, init, done ) {
 	], function( err, props ) {
 		props.keywords = [];
 		props.devDependencies = {
-			'grunt':                  'latest',
-			'load-grunt-tasks':       'latest',
-			'grunt-dev-update':       'latest',
-			'grunt-prompt':           'latest',
-			'grunt-text-replace':     'latest',
-			'grunt-wp-i18n':          'latest',
-			'grunt-contrib-copy':     '^0.7.0',
+			'grunt':                       'latest',
+			'load-grunt-tasks':            'latest',
+			'grunt-dev-update':            'latest',
+			'grunt-prompt':                'latest',
+			'grunt-text-replace':          'latest',
+			'grunt-wp-readme-to-markdown': 'latest',
+			'grunt-wp-i18n':               'latest',
+			'grunt-contrib-copy':          '^0.7.0',
 		};
 
 		/**

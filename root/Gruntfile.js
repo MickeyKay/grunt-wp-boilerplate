@@ -113,7 +113,8 @@ module.exports = function( grunt ) {
 					'!.gitmodules',
 					'!composer*',
 					'!vendor/autoload.php',
-					'!vendor/composer/**'
+					'!vendor/composer/**',
+					'!readme.md'
 				],
 				dest: 'svn/trunk/',
 			},

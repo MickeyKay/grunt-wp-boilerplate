@@ -60,7 +60,7 @@ exports.template = function( grunt, init, done ) {
 		{
 			name   : 'wp_contributors',
 			message: 'Contributors (wordpress.org usernames)',
-			default: 'MIGHTYminnow'
+			default: 'McGuive7'
 		},
 		{
 			name   : 'tags',
@@ -80,22 +80,22 @@ exports.template = function( grunt, init, done ) {
 		{
 			name   : 'author_name',
 			message: 'Author name',
-			default: 'MIGHTYminnow Web Studio & School'
+			default: 'Mickey Kay'
 		},
 		{
 			name   : 'author_email',
 			message: 'Author email',
-			default: 'info@mightyminnow.com'
+			default: 'mickey@mickeykaycreative.com'
 		},
 		{
 			name   : 'author_url',
 			message: 'Author URL',
-			default: 'http://mightyminnow.com/plugin-landing-page?utm_source=' + slug + '&utm_medium=plugin-repo&utm_campaign=WordPress%20Plugins'
+			default: 'http://mickeykaycreative.com?utm_source=' + slug + '&utm_medium=plugin-repo&utm_campaign=WordPress%20Plugins'
 		},
 		{
 			name   : 'git_repo',
 			message: 'Github repo',
-			default: 'https://github.com/MIGHTYminnow/' + slug
+			default: 'https://github.com/MickeyKay/' + slug
 		},
 		{
 			name   : 'svn_repo',

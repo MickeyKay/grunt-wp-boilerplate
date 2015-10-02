@@ -59,6 +59,15 @@ class {%= safe_name %}_Admin {
 	private $version;
 
 	/**
+     * Plugin options.
+     *
+     * @since  1.0.0
+     *
+     * @var    string
+     */
+    protected $options;
+
+	/**
 	 * The instance of this class.
 	 *
 	 * @since    {%= version %}
@@ -95,6 +104,7 @@ class {%= safe_name %}_Admin {
 		$this->plugin_slug = $this->plugin->get( 'slug' );
 		$this->plugin_name = $this->plugin->get( 'name' );
 		$this->version = $this->plugin->get( 'version' );
+		$this->options = $this->plugin->get( 'options' );
 
 	}
 
@@ -208,14 +218,33 @@ class {%= safe_name %}_Admin {
 		$id = 'field_1';
 		add_settings_field(
 			$id, // ID
-			__( 'Field Title', {%= slug %} ), // Title
-			array( $this, 'render_post_type_settings' ), // Callback
-			"{$this->plugin_slug}-post_types_settings", // Page
-			'post_types', // Section
+			__( 'Field Title', '{%= slug %}' ), // Title
+			array( $this, 'render_checkbox' ), // Callback
+			"{$this->plugin_slug}-tab-1", // Page
+			'tab-1', // Section
 			array( // Args
-				'id' => $id,
+				'id'          => $id,
+				'description' => __( 'Description goes here.', '{%= slug %}' ),
+				'save_null'   => false,
 			)
 		);
+
+	}
+
+	/**
+	 * Validate saved settings.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array   $input Saved inputs.
+	 *
+	 * @return array Update settings.
+	 */
+	public function validate_settings( $input ) {
+
+		$new_input = $input;
+
+		return $new_input;
 
 	}
 
@@ -275,7 +304,7 @@ class {%= safe_name %}_Admin {
 			$option_name,
 			$option_name,
 			checked( 1, $checked, false ),
-			! empty( $args['description'] ) ? '<span class="rae-description">' . $args['description'] . '</span>': ''
+			! empty( $args['description'] ) ? '<span class="rae-description">' . esc_html( $args['description'] ) . '</span>': ''
 		);
 
 	}
@@ -322,8 +351,7 @@ class {%= safe_name %}_Admin {
 			$option_name,
 			$option_name,
 			! empty( $args['class'] ) ? $args['class'] : '',
-			! empty( $args['description'] ) ? sprintf( '<br /><p class="description" for="%s">%s</p>',
-				$option_name, $args['description'] ) : ''
+			! empty( $args['description'] ) ? sprintf( '<br /><p class="description" for="%s">%s</p>', $option_name, esc_html( $args['description'] ) ): ''
 		);
 
 	}
@@ -364,12 +392,54 @@ class {%= safe_name %}_Admin {
 				'<option %s value="%s"/>%s</option>',
 				selected( $option_value, $option_slug, false ),
 				$option_slug,
-				$option_name
+				esc_html( $option_name )
 			);
 
 		}
 
 		echo '</select>';
+
+	}
+
+	/*===========================================
+	 * Helper functions.
+	===========================================*/
+
+	/**
+	 * Get option name based on primary and secondary id's.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $option_id    Primary option id.
+	 * @param string  $secondary_id Secondary option id.
+	 *
+	 * @return string Option name.
+	 */
+	private function get_option_name( $option_id, $secondary_id = '' ) {
+		if ( $secondary_id ) {
+			return sprintf( '%s[%s][%s]', $this->plugin_slug, $option_id, $secondary_id );
+		} else {
+			return sprintf( '%s[%s]', $this->plugin_slug, $option_id );
+		}
+	}
+
+	/**
+	 * Get option value based on primary and secondary id's.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string  $option_id    Primary option id.
+	 * @param string  $secondary_id Secondary option id.
+	 *
+	 * @return mixed Option value.
+	 */
+	private function get_option_value( $option_id, $secondary_id = '' ) {
+
+		if ( $secondary_id ) {
+			return isset( $this->options[ $option_id ][ $secondary_id ] ) ? $this->options[ $option_id ][ $secondary_id ] : null;
+		} else {
+			return isset( $this->options[ $option_id ] ) ? $this->options[ $option_id ] : null;
+		}
 
 	}
 

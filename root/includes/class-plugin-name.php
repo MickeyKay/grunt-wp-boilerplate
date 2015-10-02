@@ -76,6 +76,15 @@ class {%= safe_name %} {
 	protected $version;
 
 	/**
+     * Plugin options.
+     *
+     * @since  1.0.0
+     *
+     * @var    string
+     */
+    protected $options;
+
+	/**
 	 * The instance of this class.
 	 *
 	 * @since    {%= version %}
@@ -115,6 +124,7 @@ class {%= safe_name %} {
 		$this->slug = '{%= slug %}';
 		$this->name = __( '{%= title %}', '{%= slug %}' );
 		$this->version = '{%= version %}';
+		$this->options = get_option( $this->slug );
 
 		$this->load_dependencies();
 		$this->set_locale();

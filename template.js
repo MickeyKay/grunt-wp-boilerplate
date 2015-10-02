@@ -1,7 +1,10 @@
 /**
+ * grunt-init wp-plugin
+ * https://github.com/MickeyKay/wp-plugin
+ *
+ * Based on:
  * grunt-wp-boilerplate
  * https://github.com/fooplugins/grunt-wp-boilerplate
- *
  * Copyright (c) 2014 Brad Vincent, FooPlugins LLC
  * Licensed under the MIT License
  */

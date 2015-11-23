@@ -73,13 +73,13 @@ class {%= safe_name %}_Public {
      * @return    {%= safe_name %}_Public    A single instance of this class.
      */
     public static function get_instance( $plugin ) {
- 
+
         if ( null == self::$instance ) {
             self::$instance = new self( $plugin );
         }
- 
+
         return self::$instance;
- 
+
     }
 
 	/**
@@ -105,18 +105,6 @@ class {%= safe_name %}_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in {%= safe_name %}_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The {%= safe_name %}_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
 		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/{%= slug %}-public.css', array(), $this->version, 'all' );
 
 	}
@@ -127,18 +115,6 @@ class {%= safe_name %}_Public {
 	 * @since    {%= version %}
 	 */
 	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in {%= safe_name %}_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The {%= safe_name %}_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
 
 		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/{%= slug %}-public.js', array( 'jquery' ), $this->version, false );
 

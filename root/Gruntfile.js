@@ -26,7 +26,7 @@ module.exports = function( grunt ) {
 			options: {
 				sourceMap: true,
 			},
-			target: {
+			all: {
 				files: [{
 					expand: true,
 					src: [
@@ -161,7 +161,15 @@ module.exports = function( grunt ) {
 				}
 	    	}
 	    },
-		watch: {
+	    watch: {
+			cssmin: {
+                files: [
+                	'public/**/*.css',
+                	'admin/**/*.css',
+                	'!**/*.min.css',
+                ],
+                tasks: 'cssmin'
+            },
             uglify: {
                 files: [
                 	'public/**/*.js',
@@ -172,8 +180,7 @@ module.exports = function( grunt ) {
             },
             options: {
 				livereload: true, debounceDelay: 2000
-			},
-        },},
+			}
         },
 		wp_readme_to_markdown: {
 			your_target: {

@@ -22,6 +22,25 @@ module.exports = function( grunt ) {
 	            }
 	        }
 	    },
+	    cssmin: {
+			options: {
+				sourceMap: true,
+				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
+					' * <%= pkg.homepage %>\n' +
+					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
+					' * Licensed GPLv2+' +
+					' */\n'
+			},
+			target: {
+				files: [{
+					expand: true,
+					cwd: 'css',
+					src: ['*.css', '!*.min.css'],
+					dest: 'css',
+					ext: '.min.css',
+				}]
+			}
+		},
 	    copy: {
 			svnAssets: {
 				cwd: 'assets/',
@@ -160,6 +179,7 @@ module.exports = function( grunt ) {
 		'replace',
 		'wp_readme_to_markdown',
 		'makepot',
+		'cssmin',
 		'uglify',
 		'copy'
 	] );

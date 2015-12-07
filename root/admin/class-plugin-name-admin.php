@@ -170,12 +170,14 @@ class {%= safe_name %}_Admin {
 	        </h2>
 			<form action='options.php' method='post'>
 				<?php
+
+				// Set up settings fields.
 				settings_fields( $this->plugin_slug );
 
 				if ( ( ! $active_tab || 'tab-1' == $active_tab ) ) {
-					do_settings_sections( "{$this->plugin_slug}-tab-1" );
+					$this->output_tab_settings( 'tab-1' );
 				} elseif ( 'tab-2' == $active_tab ) {
-					do_settings_sections( "{$this->plugin_slug}-tab-2" );
+					$this->output_tab_settings( 'tab-2' );
 				}
 
 				submit_button();
@@ -199,36 +201,106 @@ class {%= safe_name %}_Admin {
 			array( $this, 'validate_settings' ) // Sanitization
 		);
 
-		// Tab 1 settings section
+		/**
+		 * Tab 1 Settings
+		 */
+		$tab = 'tab-1';
 		add_settings_section(
-			'tab-1', // Section ID
+			$tab, // Section ID
 			null, // Title
 			null, // Callback
-			"{$this->plugin_slug}-tab-1" // Page
-		);
-
-		// Tab 2 settings section
-		add_settings_section(
-			'tab-2', // Section ID
-			null, // Title
-			null, // Callback
-			"{$this->plugin_slug}-tab-2" // Page
+			"{$this->plugin_slug}-{$tab}" // Page
 		);
 
 		$id = 'field_1';
 		add_settings_field(
 			$id, // ID
-			__( 'Field Title', '{%= slug %}' ), // Title
+			__( 'Mobile', '{%= slug %}' ), // Title
 			array( $this, 'render_checkbox' ), // Callback
-			"{$this->plugin_slug}-tab-1", // Page
-			'tab-1', // Section
+			"{$this->plugin_slug}-{$tab}", // Page
+			$tab, // Section
 			array( // Args
 				'id'          => $id,
-				'description' => __( 'Description goes here.', '{%= slug %}' ),
+				'description' => __( 'Enable for mobile devices (disabled by default to save bandwidth).', '{%= slug %}' ),
 				'save_null'   => false,
 			)
 		);
 
+		/**
+		 * Tab 2 Settings
+		 */
+		$tab = 'tab-2';
+		add_settings_section(
+			$tab, // Section ID
+			null, // Title
+			null, // Callback
+			"{$this->plugin_slug}-{$tab}" // Page
+		);
+
+		$id = 'field_2';
+		add_settings_field(
+			$id, // ID
+			__( 'Mobile', '{%= slug %}' ), // Title
+			array( $this, 'render_checkbox' ), // Callback
+			"{$this->plugin_slug}-{$tab}", // Page
+			$tab, // Section
+			array( // Args
+				'id'          => $id,
+				'description' => __( 'Enable for mobile devices (disabled by default to save bandwidth).', '{%= slug %}' ),
+				'save_null'   => false,
+			)
+		);
+
+	}
+
+	/**
+	 * Output appropriate tab settings.
+	 *
+	 * Output all tab settings on each tab, so that we don't overwrite
+	 * any option values as blank, however simply hide those options
+	 * that aren't meant to be exposed on this tab.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $tab Tab ID.
+	 */
+	public function output_tab_settings( $tab ) {
+
+		global $wp_settings_fields, $wp_settings_sections;
+
+		$page = "{$this->plugin_slug}-{$tab}";
+
+		// Get settings tabs pages for this plugin.
+		$settings_pages = array_keys( $wp_settings_fields );
+		$plugin_settings_pages = array_filter( $settings_pages, array( $this, 'filter_plugin_settings_pages' ) );
+
+		foreach ( $plugin_settings_pages as $settings_page ) {
+
+
+			if ( $page == $settings_page ) {
+				do_settings_sections( $settings_page );
+			} else {
+				echo '<div class="hidden-tab">';
+				do_settings_sections( $settings_page );
+				echo '</div>';
+			}
+		}
+
+
+	}
+
+	/**
+	 * Filter the plugin settings pages array to only include settings
+	 * tabs.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $settings_page Settings page slug.
+	 *
+	 * @return int true|false Whether or not the settings page is a tabbed settings page.
+	 */
+	public function filter_plugin_settings_pages( $settings_page ) {
+		return strpos( $settings_page, "{$this->plugin_slug}-tab-" ) === 0;
 	}
 
 	/**

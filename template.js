@@ -116,6 +116,9 @@ exports.template = function( grunt, init, done ) {
 			'grunt-wp-readme-to-markdown': 'latest',
 			'grunt-wp-i18n':               'latest',
 			'grunt-contrib-copy':          '^0.7.0',
+			'grunt-contrib-uglify':        '^0.7.0',
+			'grunt-contrib-cssmin':        '^0.14.0',
+			'grunt-contrib-watch':         '~0.6.1',
 		};
 
 		/**

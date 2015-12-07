@@ -25,18 +25,15 @@ module.exports = function( grunt ) {
 	    cssmin: {
 			options: {
 				sourceMap: true,
-				banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-					' * <%= pkg.homepage %>\n' +
-					' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-					' * Licensed GPLv2+' +
-					' */\n'
 			},
 			target: {
 				files: [{
 					expand: true,
-					cwd: 'css',
-					src: ['*.css', '!*.min.css'],
-					dest: 'css',
+					src: [
+						'public/**/*.css',
+						'admin/**/*.css',
+						'!**/*.min.css'
+					],
 					ext: '.min.css',
 				}]
 			}
@@ -145,23 +142,39 @@ module.exports = function( grunt ) {
 			}
 		},
 		uglify: {
-			all: {
-				files: {
-					'public/js/{%= slug %}-public.min.js': ['public/js/{%= slug %}-public.js'],
-					'admin/js/{%= slug %}-admin.min.js': ['admin/js/{%= slug %}-admin.js']
-				},
-				options: {
-					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-						' * <%= pkg.homepage %>\n' +
-						' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-						' * Licensed GPLv2+' +
-						' */\n',
+	    	all: {
+	    		files: [{
+	    			expand: true,
+	    			src: [
+	    				'public/**/*.js',
+	                	'admin/**/*.js',
+	                	'!**/*.min.js',
+	                ],
+	    			ext: '.min.js',
+          			extDot: 'first'
+	    		}],
+	    		options: {
 					mangle: {
 						except: ['jQuery']
-					}
+					},
+					sourceMap: true
 				}
-			}
-		},
+	    	}
+	    },
+		watch: {
+            uglify: {
+                files: [
+                	'public/**/*.js',
+                	'admin/**/*.js',
+                	'!**/*.min.js',
+                ],
+                tasks: 'uglify'
+            },
+            options: {
+				livereload: true, debounceDelay: 2000
+			},
+        },},
+        },
 		wp_readme_to_markdown: {
 			your_target: {
 	      		files: {

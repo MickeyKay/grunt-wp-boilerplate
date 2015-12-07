@@ -22,6 +22,52 @@ module.exports = function( grunt ) {
 	            }
 	        }
 	    },
+	    copy: {
+			svnAssets: {
+				cwd: 'assets/',
+				src: ['**'],
+				dest: 'svn/assets/',
+				expand: true,
+			},
+			svnTrunk: {
+				src:  [
+					'**',
+					'!node_modules/**',
+					'!svn/**',
+					'!.git/**',
+					'!.sass-cache/**',
+					'!css/src/**',
+					'!js/src/**',
+					'!img/src/**',
+					'!assets/**',
+					'!design/**',
+					'!Gruntfile.js',
+					'!package.json',
+					'!.gitignore',
+					'!.gitmodules',
+					'!composer*',
+					'!vendor/autoload.php',
+					'!vendor/composer/**',
+					'!readme.md'
+				],
+				dest: 'svn/trunk/',
+			},
+			svnTags: {
+				cwd:  'svn/trunk/',
+				src: ['**'],
+				dest: 'svn/tags/<%= newVersion %>/',
+				expand: true,
+			}
+		},
+	    makepot: {
+	        target: {
+	            options: {
+	                domainPath: '/languages/',    // Where to save the POT file.
+	                potFilename: '{%= slug %}.pot',   // Name of the POT file.
+	                type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
+	            }
+	        }
+	    },
 	    prompt: {
 			version: {
 				options: {
@@ -30,7 +76,7 @@ module.exports = function( grunt ) {
 							config:  'newVersion',
 							type:    'input',
 							message: 'What specific version would you like',
-							default: '<%= pkg.version %>' 
+							default: '<%= pkg.version %>'
 						}
 					]
 				}
@@ -79,6 +125,24 @@ module.exports = function( grunt ) {
     			]
 			}
 		},
+		uglify: {
+			all: {
+				files: {
+					'public/js/{%= slug %}-public.min.js': ['public/js/{%= slug %}-public.js'],
+					'admin/js/{%= slug %}-admin.min.js': ['admin/js/{%= slug %}-admin.js']
+				},
+				options: {
+					banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
+						' * <%= pkg.homepage %>\n' +
+						' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
+						' * Licensed GPLv2+' +
+						' */\n',
+					mangle: {
+						except: ['jQuery']
+					}
+				}
+			}
+		},
 		wp_readme_to_markdown: {
 			your_target: {
 	      		files: {
@@ -88,52 +152,6 @@ module.exports = function( grunt ) {
    					screenshot_url: '',
 				},
  		 	},
-		},
-	    makepot: {
-	        target: {
-	            options: {
-	                domainPath: '/languages/',    // Where to save the POT file.
-	                potFilename: '{%= slug %}.pot',   // Name of the POT file.
-	                type: 'wp-plugin'  // Type of project (wp-plugin or wp-theme).
-	            }
-	        }
-	    },
-		copy: {
-			svnAssets: {
-				cwd: 'assets/',
-				src: ['**'],
-				dest: 'svn/assets/',
-				expand: true,
-			},
-			svnTrunk: {
-				src:  [
-					'**',
-					'!node_modules/**',
-					'!svn/**',
-					'!.git/**',
-					'!.sass-cache/**',
-					'!css/src/**',
-					'!js/src/**',
-					'!img/src/**',
-					'!assets/**',
-					'!design/**',
-					'!Gruntfile.js',
-					'!package.json',
-					'!.gitignore',
-					'!.gitmodules',
-					'!composer*',
-					'!vendor/autoload.php',
-					'!vendor/composer/**',
-					'!readme.md'
-				],
-				dest: 'svn/trunk/',
-			},
-			svnTags: {
-				cwd:  'svn/trunk/',
-				src: ['**'],
-				dest: 'svn/tags/<%= newVersion %>/',
-				expand: true,
-			}
 		}
 	} );
 
@@ -142,6 +160,7 @@ module.exports = function( grunt ) {
 		'replace',
 		'wp_readme_to_markdown',
 		'makepot',
+		'uglify',
 		'copy'
 	] );
 

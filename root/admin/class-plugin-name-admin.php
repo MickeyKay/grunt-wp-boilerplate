@@ -215,13 +215,13 @@ class {%= safe_name %}_Admin {
 		$id = 'field_1';
 		add_settings_field(
 			$id, // ID
-			__( 'Mobile', '{%= slug %}' ), // Title
+			__( 'Option 1', '{%= slug %}' ), // Title
 			array( $this, 'render_checkbox' ), // Callback
 			"{$this->plugin_slug}-{$tab}", // Page
 			$tab, // Section
 			array( // Args
 				'id'          => $id,
-				'description' => __( 'Enable for mobile devices (disabled by default to save bandwidth).', '{%= slug %}' ),
+				'description' => __( 'This is option 1.', '{%= slug %}' ),
 				'save_null'   => false,
 			)
 		);
@@ -240,13 +240,13 @@ class {%= safe_name %}_Admin {
 		$id = 'field_2';
 		add_settings_field(
 			$id, // ID
-			__( 'Mobile', '{%= slug %}' ), // Title
+			__( 'Option 2', '{%= slug %}' ), // Title
 			array( $this, 'render_checkbox' ), // Callback
 			"{$this->plugin_slug}-{$tab}", // Page
 			$tab, // Section
 			array( // Args
 				'id'          => $id,
-				'description' => __( 'Enable for mobile devices (disabled by default to save bandwidth).', '{%= slug %}' ),
+				'description' => __( 'This is option 2.', '{%= slug %}' ),
 				'save_null'   => false,
 			)
 		);
@@ -280,7 +280,7 @@ class {%= safe_name %}_Admin {
 			if ( $page == $settings_page ) {
 				do_settings_sections( $settings_page );
 			} else {
-				echo '<div class="hidden-tab">';
+				echo '<div class=" tab hidden">';
 				do_settings_sections( $settings_page );
 				echo '</div>';
 			}

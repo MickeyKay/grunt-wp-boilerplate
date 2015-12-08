@@ -3,11 +3,12 @@
 > Create a WordPress plugin with [grunt-init][] based on the [WordPress Plugin Boilerplate](https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate)
 
 ##Mickey's topics to cover##
-1. Run grunt-init
-2. Run npm install
-4. Add dependencies in composer
-3. Run composer install/update
-4. Run composer update as needed when new library versions are desired
+* Run grunt-init
+* Run npm install
+* Add dependencies in composer
+* Run composer install/update
+* Run composer update as needed when new library versions are desired
+* Run `grunt watch` and `build`
 
 [grunt-init]: http://gruntjs.com/project-scaffolding
 

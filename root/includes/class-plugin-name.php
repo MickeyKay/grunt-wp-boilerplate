@@ -277,4 +277,15 @@ class {%= safe_name %} {
 		return $this->$property;
 	}
 
+	/**
+	 * Return minified suffix unless SCRIPT_DEBUG is enabled.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string Null or .min, depending on whether debugging is enabled.
+	 */
+	public function get_min_suffix() {
+		return ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	}
+
 }

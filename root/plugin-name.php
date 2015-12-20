@@ -1,12 +1,10 @@
 <?php
 
 /**
- * The plugin bootstrap file
+ * {%= title %}
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * Dashboard. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
+ * This plugin was generated using Mickey Kay's wp-plugin grunt-init
+ * template: https://github.com/MickeyKay/wp-plugin
  *
  * @link              {%= homepage %}
  * @since             {%= version %}
@@ -30,6 +28,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+register_activation_hook( __FILE__, 'activate_{%= underscored_slug %}' );
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-{%= slug %}-activator.php
@@ -39,6 +38,7 @@ function activate_{%= underscored_slug %}() {
 	{%= safe_name %}_Activator::activate();
 }
 
+register_deactivation_hook( __FILE__, 'deactivate_{%= underscored_slug %}' );
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-{%= slug %}-deactivator.php
@@ -47,9 +47,6 @@ function deactivate_{%= underscored_slug %}() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-{%= slug %}-deactivator.php';
 	{%= safe_name %}_Deactivator::deactivate();
 }
-
-register_activation_hook( __FILE__, 'activate_{%= underscored_slug %}' );
-register_deactivation_hook( __FILE__, 'deactivate_{%= underscored_slug %}' );
 
 /**
  * The core plugin class that is used to define internationalization,

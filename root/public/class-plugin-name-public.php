@@ -105,7 +105,8 @@ class {%= safe_name %}_Public {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'css/{%= slug %}-public.css', array(), $this->version, 'all' );
+		$min_suffix = $this->plugin->get_min_suffix();
+		wp_enqueue_style( "{$this->plugin_slug}-public", plugin_dir_url( __FILE__ ) . "css/{%= slug %}-public{$min_suffix}.css", array(), $this->version, 'all' );
 
 	}
 
@@ -116,7 +117,8 @@ class {%= safe_name %}_Public {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( $this->plugin_slug, plugin_dir_url( __FILE__ ) . 'js/{%= slug %}-public.js', array( 'jquery' ), $this->version, false );
+		$min_suffix = $this->plugin->get_min_suffix();
+		wp_enqueue_script( "{$this->plugin_slug}-public", plugin_dir_url( __FILE__ ) . "js/{%= slug %}-public{$min_suffix}.js", array( 'jquery' ), $this->version, false );
 
 	}
 

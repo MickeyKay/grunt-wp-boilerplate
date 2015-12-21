@@ -366,7 +366,7 @@ class {%= safe_name %}_Admin {
 
 			printf(
 				'<input type="hidden" value="0" id="%s" name="%s"/>',
-				$option_name,
+				"{$option_name}-no-value",
 				$option_name
 			);
 
